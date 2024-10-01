@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   // * This widget is the root of your application.
   // ? whatever that means hehe
   // ! just havin  fun with the comment marcup
-  // TODO upload to git?
+  // TODO upload to git pls
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

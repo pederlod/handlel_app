@@ -48,6 +48,12 @@ dependencies:
   #Provider package to retain user information across screens. constantly passing them back and forward seems inefficient.
   provider: ^6.0.5
 
+  # for http requests
+  http: ^0.13.5
+
+  # for json parsing
+  cached_network_image: ^3.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

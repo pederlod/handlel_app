@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../database/db_helper.dart';
+import 'package:handlel_app/database/db_helper.dart';
 
 class UserDatabaseHelper {
   final DatabaseHelper _dbHelper = DatabaseHelper();

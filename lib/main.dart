@@ -10,6 +10,7 @@ import 'providers/user_provider.dart';
 import 'providers/theme_provider.dart';
 import 'sharedComponents/theme.dart';
 import 'database/db_helper.dart'; // Import your DatabaseHelper
+import 'package:flutter_dotenv/flutter_dotenv.dart'; // .env file for secure keys
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,8 @@ void main() async {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
+
+  await dotenv.load(fileName: ".env"); // Load the .env file with api secure key
 
   runApp(
     MultiProvider(

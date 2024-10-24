@@ -37,7 +37,7 @@ class DatabaseHelper {
         CREATE TABLE user (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           username TEXT,
-          icon_color TEXT  // Add the icon_color field here
+          icon_color TEXT
         )
       ''');
       },

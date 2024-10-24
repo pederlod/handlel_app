@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:handlel_app/models/product.dart'; // Ensure this imports your updated Product model
 import 'package:flutter/material.dart'; // For debugPrint
+import 'package:flutter_dotenv/flutter_dotenv.dart'; // Import dotenv for API key access
 
 class ApiCaller {
   final String _baseUrl = 'https://kassal.app/api/v1/products';
-  final String _apiKey = 'iK1D2q6S3OOjOwYcbbZMqwNvqQf5LdA62KzoKvqj'; // API key
+  final String _apiKey = dotenv.env['API_KEY'] ?? ''; // API key from .env file
 
   Future<List<Product>> searchProduct(String query) async {
     try {

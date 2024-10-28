@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'shopping_list_result_item.dart'; // Import the ShoppingListResultItem widget
+import 'kassal_list_result_item.dart'; // Import the KassalListResultItem widget
 import 'package:handlel_app/models/product.dart';
 // Import your model class
 
-class ShoppingListResult extends StatelessWidget {
+class KassalListResult extends StatelessWidget {
   final List<Product> products;
 
-  const ShoppingListResult({super.key, required this.products});
+  const KassalListResult({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class ShoppingListResult extends StatelessWidget {
       itemCount: products.length,
       itemBuilder: (context, index) {
         final product = products[index];
-        return ShoppingListResultItem(product: product);
+        return KassalListResultItem(product: product);
       },
     );
   }

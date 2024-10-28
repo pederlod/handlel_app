@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:handlel_app/screens/shoppingList/shopping_list_screen.dart';
+import 'package:handlel_app/screens/kassalSearchList/kassal_search_list_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // For storing login info
 import '../../database/db_helper.dart'; // Import the DatabaseHelper class
 import 'sub/random_color.dart';
@@ -34,7 +34,7 @@ class CreateUserScreenState extends State<CreateUserScreen> {
     // Navigate to the ShoppingList screen
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const ShoppingListScreen()),
+      MaterialPageRoute(builder: (context) => const KassalListScreen()),
     );
   }
 

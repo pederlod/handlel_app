@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:handlel_app/sharedComponents/apiCaller/api_caller.dart'; // Import the API caller
 import 'package:handlel_app/models/product.dart'; // Import the Product model
-import 'package:handlel_app/screens/shoppingList/sub/shopping_list_result.dart'; // Import your container widget to show results
+import 'package:handlel_app/screens/kassalSearchList/sub/kassal_list_result.dart'; // Import your container widget to show results
 
-class UserSearchInput extends StatefulWidget {
-  const UserSearchInput({super.key});
+class KassalSearchInput extends StatefulWidget {
+  const KassalSearchInput({super.key});
 
   @override
-  UserSearchInputState createState() => UserSearchInputState();
+  KassalSearchInputState createState() => KassalSearchInputState();
 }
 
-class UserSearchInputState extends State<UserSearchInput> {
+class KassalSearchInputState extends State<KassalSearchInput> {
   final TextEditingController _searchController = TextEditingController();
   List<Product> _searchResults = []; // Store search results
   bool _isLoading = false; // To track loading state
@@ -65,7 +65,7 @@ class UserSearchInputState extends State<UserSearchInput> {
                 ? const CircularProgressIndicator() // Show loading indicator
                 : Expanded(
                     child: _searchResults.isNotEmpty
-                        ? ShoppingListResult(
+                        ? KassalListResult(
                             products: _searchResults) // Show results
                         : const Center(
                             child: Text(

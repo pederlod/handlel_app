@@ -12,7 +12,7 @@ class ApiCaller {
     try {
       final response = await http.get(
         Uri.parse(
-            '$_baseUrl?search=$query&sort=price_asc'), // Adjust query params
+            '$_baseUrl?search=$query&sort=name_asc&unique=1&price_min=0.01'), // Adjust query params
         headers: {
           'Authorization': 'Bearer $_apiKey', // Add valid token
         },
@@ -33,6 +33,28 @@ class ApiCaller {
       debugPrint('Error during product search: $error');
       debugPrint('Stack trace: $stackTrace');
       return [];
+    }
+  }
+
+  Future<Product?> getProductDetails(int productId) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrl/id/$productId'),
+        headers: {
+          'Authorization': 'Bearer $_apiKey',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        return Product.fromJson(jsonData['data']);
+      } else {
+        debugPrint('Failed to fetch product details: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      debugPrint('Error fetching product details: $e');
+      return null;
     }
   }
 }

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:handlel_app/database/db_helper.dart';
+import 'package:handlel_app/database/dao/user_dao.dart';
 
 class UserDatabaseHelper {
-  final DatabaseHelper _dbHelper = DatabaseHelper();
+  final UserDao _userDao = UserDao();
 
   // Fetch all users from the database
   Future<List<Map<String, dynamic>>> fetchUsers() async {
-    List<Map<String, dynamic>> users = await _dbHelper.getUsers();
+    List<Map<String, dynamic>> users = await _userDao.getUsers();
 
     // Check if any user's icon_color is null and set it to grey
     for (var user in users) {
       if (user['icon_color'] == null || user['icon_color'].isEmpty) {
-        await _dbHelper.updateUserColor(
+        await _userDao.updateUserColor(
             user['id'], '#808080'); // Set to grey in the database
       }
     }
@@ -21,7 +21,7 @@ class UserDatabaseHelper {
 
   // Delete a user from the database
   Future<void> deleteUser(int userId) async {
-    await _dbHelper.deleteUser(userId);
+    await _userDao.deleteUser(userId);
   }
 
   // Convert hex color string to Color
@@ -32,7 +32,7 @@ class UserDatabaseHelper {
 
   // Update the username of a user
   Future<void> updateUserName(int userId, String newUsername) async {
-    await _dbHelper.updateUserName(
+    await _userDao.updateUserName(
         userId, newUsername); // Use the method from db_helper
   }
 }

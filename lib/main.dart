@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:handlel_app/database/dao/user_dao.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,7 +10,8 @@ import 'screens/createUser/create_user_screen.dart';
 import 'providers/user_provider.dart';
 import 'providers/theme_provider.dart';
 import 'sharedComponents/theme.dart';
-import 'database/db_helper.dart'; // Import your DatabaseHelper
+
+import 'package:flutter_dotenv/flutter_dotenv.dart'; // .env file for secure keys
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +21,8 @@ void main() async {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
+
+  await dotenv.load(fileName: ".env"); // Load the .env file with api secure key
 
   runApp(
     MultiProvider(
@@ -41,14 +45,14 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   Future<Widget> _getInitialScreen() async {
-    final dbHelper = DatabaseHelper();
+    final userDao = UserDao();
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // Check if a user is logged in from SharedPreferences
     int? loggedInUserId = prefs.getInt('loggedInUserId');
 
     // Check if there are users in the database
-    List<Map<String, dynamic>> users = await dbHelper.getUsers();
+    List<Map<String, dynamic>> users = await userDao.getUsers();
 
     if (users.isEmpty) {
       // No users in the database -> Go to LoginScreen

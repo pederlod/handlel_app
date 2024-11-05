@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:handlel_app/screens/shoppingList/shopping_list_screen.dart';
+import 'package:handlel_app/screens/kassalSearchList/kassal_search_list_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // For storing login info
-import '../../database/db_helper.dart'; // Import the DatabaseHelper class
 import 'sub/random_color.dart';
+import 'package:handlel_app/database/dao/user_dao.dart';
 
 class CreateUserScreen extends StatefulWidget {
   const CreateUserScreen({super.key});
@@ -12,7 +12,7 @@ class CreateUserScreen extends StatefulWidget {
 }
 
 class CreateUserScreenState extends State<CreateUserScreen> {
-  final DatabaseHelper _dbHelper = DatabaseHelper();
+  final UserDao _userDao = UserDao();
   final TextEditingController _usernameController = TextEditingController();
 
   // Store the newly created user as the logged-in user
@@ -34,7 +34,7 @@ class CreateUserScreenState extends State<CreateUserScreen> {
     // Navigate to the ShoppingList screen
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const ShoppingListScreen()),
+      MaterialPageRoute(builder: (context) => const KassalListScreen()),
     );
   }
 
@@ -43,7 +43,7 @@ class CreateUserScreenState extends State<CreateUserScreen> {
 
     if (username.isNotEmpty) {
       String iconColor = generateRandomColor(); // Generate a random color
-      int userId = await _dbHelper.insertUser(username, iconColor); // Save user
+      int userId = await _userDao.insertUser(username, iconColor); // Save user
 
       // Retrieve the new user data
       Map<String, dynamic> newUser = {

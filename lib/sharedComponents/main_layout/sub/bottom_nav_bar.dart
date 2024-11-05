@@ -17,12 +17,24 @@ class BottomNavBar extends StatelessWidget {
       onTap: onItemTapped, // Call the provided function when an item is tapped
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.list),
-          label: 'Shopping List',
+          icon: Icon(Icons.search_outlined),
+          label: 'Find product',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.people),
           label: 'Users',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.list),
+          label: 'Shopping List',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.favorite),
+          label: 'favorites',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.balance_rounded),
+          label: 'groups',
         ),
       ],
     );

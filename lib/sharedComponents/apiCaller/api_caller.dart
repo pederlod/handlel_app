@@ -12,17 +12,19 @@ class ApiCaller {
     try {
       final response = await http.get(
         Uri.parse(
-            '$_baseUrl?search=$query&sort=name_asc&unique=1&price_min=0.01'), // Adjust query params
+            '$_baseUrl?search=$query&sort=name_asc&unique=1&price_min=0.01&exclude_without_ean=1'), // temporary removed &unique=1
         headers: {
           'Authorization': 'Bearer $_apiKey', // Add valid token
         },
       );
 
+      debugPrint('Response status: ${response.statusCode}');
+      //debugPrint('Response body: ${response.body}'); // dont fill th enetire debug console with a debug response lol.
+
       if (response.statusCode == 200) {
         debugPrint('API call success, parsing data...');
         final Map<String, dynamic> jsonData = json.decode(response.body);
         ApiResponse apiResponse = ApiResponse.fromJson(jsonData);
-
         return apiResponse.products;
       } else {
         debugPrint(
@@ -36,24 +38,65 @@ class ApiCaller {
     }
   }
 
-  Future<Product?> getProductDetails(int productId) async {
+  Future<Product?> getProductDetailsWithStores(int productId) async {
     try {
-      final response = await http.get(
+      // First API call: Get the main product details
+      final productResponse = await http.get(
         Uri.parse('$_baseUrl/id/$productId'),
         headers: {
           'Authorization': 'Bearer $_apiKey',
         },
       );
 
-      if (response.statusCode == 200) {
-        final jsonData = json.decode(response.body);
-        return Product.fromJson(jsonData['data']);
-      } else {
-        debugPrint('Failed to fetch product details: ${response.statusCode}');
+      if (productResponse.statusCode != 200) {
+        debugPrint(
+            'Failed to fetch product details: ${productResponse.statusCode}');
         return null;
       }
+
+      // Parse the main product details from the first response
+      final productJson = json.decode(productResponse.body)['data'];
+      Product mainProduct = Product.fromJson(productJson);
+
+      // Check if EAN is available in the product details
+      if (mainProduct.ean == null || mainProduct.ean!.isEmpty) {
+        debugPrint(
+            "No EAN found for product ID: $productId, skipping store-specific fetch.");
+        return mainProduct;
+      }
+
+      debugPrint(
+          "Fetching store instances using EAN: ${mainProduct.ean} for product ID: $productId");
+
+      // Second API call: Get all store-specific instances of the product using EAN
+      final storesResponse = await http.get(
+        Uri.parse('$_baseUrl/ean/${mainProduct.ean}'),
+        headers: {
+          'Authorization': 'Bearer $_apiKey',
+        },
+      );
+
+      if (storesResponse.statusCode == 200) {
+        final storesData =
+            json.decode(storesResponse.body)['data']['products'] as List;
+
+        // Parse each store-specific product from the 'products' list
+        List<Product> storeInstances =
+            storesData.map((json) => Product.fromJson(json)).toList();
+
+        // Assign the list of store-specific instances to the main product
+        mainProduct.storeInstances = storeInstances;
+
+        debugPrint(
+            'Store instances found: ${mainProduct.storeInstances!.length}');
+      } else {
+        debugPrint(
+            'Failed to fetch store-specific instances: ${storesResponse.statusCode}');
+      }
+
+      return mainProduct;
     } catch (e) {
-      debugPrint('Error fetching product details: $e');
+      debugPrint('Error fetching product details with stores: $e');
       return null;
     }
   }

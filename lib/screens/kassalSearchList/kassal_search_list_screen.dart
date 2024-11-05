@@ -17,22 +17,38 @@ class KassalListScreenState extends State<KassalListScreen> {
 
   void _searchProduct() async {
     String query = _searchController.text.trim();
+
+    if (query.isEmpty) {
+      debugPrint(
+          'Empty query. i will search "biola" when empty for quick testing'); // Log empty query
+      query = 'biola'; // tried adding default search for testing
+    }
+
     if (query.isNotEmpty) {
-      setState(() {
-        _isLoading = true;
-      });
+      // Check if mounted before setting state
+      if (mounted) {
+        setState(() {
+          _isLoading = true;
+        });
+      }
 
       try {
         List<Product> results = await ApiCaller().searchProduct(query);
-        setState(() {
-          _searchResults = results;
-        });
+        if (mounted) {
+          // Check if still mounted
+          setState(() {
+            _searchResults = results;
+          });
+        }
       } catch (e) {
         debugPrint('Error occurred while searching: $e');
       } finally {
-        setState(() {
-          _isLoading = false;
-        });
+        if (mounted) {
+          // Check if still mounted
+          setState(() {
+            _isLoading = false;
+          });
+        }
       }
     }
   }

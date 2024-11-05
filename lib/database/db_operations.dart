@@ -1,5 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
+//Basic, reusable CRUD operations for SQLite. Used by the DAO classes to preform more specific operations.
+
 class DbOperations {
   final Database db;
 

@@ -104,7 +104,14 @@ class ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           title: Text(storeProduct.name),
           subtitle: Text('Price: ${storeProduct.currentPrice} kr'),
-          trailing: Text(storeProduct.url), // Store's URL or name
+          trailing: SizedBox(
+            width: 120, // Limit the width of the trailing widget
+            child: Text(
+              storeProduct.url,
+              overflow: TextOverflow.ellipsis, // Ellipsis if URL is too long
+              style: const TextStyle(fontSize: 11),
+            ),
+          ),
         );
       }).toList(),
     );

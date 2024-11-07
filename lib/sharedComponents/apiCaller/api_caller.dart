@@ -12,7 +12,7 @@ class ApiCaller {
     try {
       final response = await http.get(
         Uri.parse(
-            '$_baseUrl?search=$query&sort=name_asc&unique=1&price_min=0.01&exclude_without_ean=1'), // temporary removed &unique=1
+            '$_baseUrl?search=$query&sort=name_asc&unique=1&price_min=0.01&exclude_without_ean=1'),
         headers: {
           'Authorization': 'Bearer $_apiKey', // Add valid token
         },

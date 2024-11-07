@@ -22,7 +22,8 @@ void main() async {
     databaseFactory = databaseFactoryFfi;
   }
 
-  await dotenv.load(fileName: ".env"); // Load the .env file with api secure key
+  await dotenv.load(
+      fileName: "assets/.env"); // Load the .env file with api secure key
 
   runApp(
     MultiProvider(
